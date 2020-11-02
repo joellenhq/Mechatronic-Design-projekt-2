@@ -5,12 +5,12 @@
 #define wy_pr 3    //ruch w prawo
 #define wy_lw 2    //ruch w lewo
 #define PWM 9      //ustawienie predkosci podpiąc pod pin w PWM~
-
+//zalaczenie bibliotek
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
-
+//utworzenie obiektu typu lcd
 LiquidCrystal_I2C lcd(0x27,16,2);
-
+//inicjalizacja zmiennej globalnej
 float licznik=0;
 
 void setup() {
@@ -29,30 +29,31 @@ void setup() {
   lcd.init();
   lcd.backlight();
   lcd.setCursor(3,0);
+  //inicjalizacja portu szeregowego
   Serial.begin();
 }
 
 void loop() {
   //warunki przelaczania się w tryb pracy i wyłączenia
 if(digitalRead(wl)){
-    digitalWrite(led_wl,!digitalRead(led_wl));
-    if(digitalRead(led_wl)) licznik++;
-    lcd.print(licznik);
+    digitalWrite(led_wl,!digitalRead(led_wl));    //negacja wyjscia sygnalizacji
+    if(digitalRead(led_wl)) licznik++;                  //inkrementacja licznika w przypadku  włączenia
+    lcd.print(licznik);                                            //wpisanie stanu licznika na lcd
     lcd.setCursor(3,0);
-   Serial.println(licznik);
-    delay(40);
-    while(digitalRead(wl)){}
-    delay(40);
+   Serial.println(licznik);                                      //wpisanie stanu licznika w serialu
+    delay(40);                                                        //oczekiwanie na drgania styku (dobrane doświadczalnie)
+    while(digitalRead(wl)){}                                //wykrywanie puszczenia przycisku
+    delay(40);                                                        //oczekiwanie na drgania styku (dobrane doświadczalnie)
     }
   //warunki zalaczenia orotow w prawo
-if(digitalRead(led_wl) && digitalRead(pr)){
-  digitalWrite(wy_pr,!digitalRead(wy_pr));
-  delay(40);
-  while(digitalRead(pr)){}
-  delay(40);
-  digitalWrite(wy_lw,LOW);
+if(digitalRead(led_wl) && digitalRead(pr)){     
+  digitalWrite(wy_pr,!digitalRead(wy_pr));      //negacja wyjscia obrotów w prawo
+  delay(40);                                                        ////oczekiwanie na drgania styku (dobrane doświadczalnie)
+  while(digitalRead(pr)){}                                //wykrywanie puszczenia przycisku
+  delay(40);                                                        //oczekiwanie na drgania styku (dobrane doświadczalnie)
+  digitalWrite(wy_lw,LOW);                            //wylaczenie wyjscia odpowiedzialnego za ruch w przeciwnym kierunku
 }
-  //warunki zalaczenia obrotow w lewo
+  //warunki zalaczenia obrotow w lewo - analogicznie jak poprzedni warunek
 if(digitalRead(led_wl) && digitalRead(lw)){
   digitalWrite(wy_lw,!digitalRead(wy_lw));
   delay(40);
@@ -62,7 +63,7 @@ if(digitalRead(led_wl) && digitalRead(lw)){
 }
   //warunek wylaczenia silnika
 if(!digitalRead(led_wl)){
-  digitalWrite(wy_lw,LOW);
+  digitalWrite(wy_lw,LOW);              //wylaczenie wyjsc odpowiedzialnych za ruch
   digitalWrite(wy_pr,LOW);
 }
 
