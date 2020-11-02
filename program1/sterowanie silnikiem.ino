@@ -29,6 +29,7 @@ void setup() {
   lcd.init();
   lcd.backlight();
   lcd.setCursor(3,0);
+  Serial.begin();
 }
 
 void loop() {
@@ -38,6 +39,7 @@ if(digitalRead(wl)){
     if(digitalRead(led_wl)) licznik++;
     lcd.print(licznik);
     lcd.setCursor(3,0);
+   Serial.println(licznik);
     delay(40);
     while(digitalRead(wl)){}
     delay(40);
