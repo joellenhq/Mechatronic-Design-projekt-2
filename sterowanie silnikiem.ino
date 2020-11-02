@@ -7,9 +7,9 @@
 #define PWM 9      //ustawienie predkosci podpiąc pod pin w PWM~
 
 #include <Wire.h> 
-#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal_I2C.h>    //załączenie bibliotek
 
-LiquidCrystal_I2C lcd(0x27,16,2);
+LiquidCrystal_I2C lcd(0x27,16,2); 
 
 float licznik=0.5;
 
