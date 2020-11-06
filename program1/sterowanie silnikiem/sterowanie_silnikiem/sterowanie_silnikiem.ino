@@ -13,6 +13,7 @@ LiquidCrystal_I2C lcd(0x27,16,2);
 //inicjalizacja zmiennej globalnej
 float licznik=0;
 
+
 void setup() {
   // deklaracja tyrybu pracy wejść/wyjsc
  
